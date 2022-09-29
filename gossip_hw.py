@@ -191,7 +191,7 @@ def line_protocol_contact_node(node_id):
                 while msg_count<256: # cap is 256
                     # try:
                         ip, port, update_time, update_digit, node_id =  msg_parser(msg)
-                        if node_check():
+                        if node_validation(node_id):
                             line_protocol_update_node(node_id, update_time, update_digit) 
                         msg_count += 1
                     # except:
