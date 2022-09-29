@@ -205,7 +205,7 @@ def line_protocol_contact_node(node_id):
         block_set.append(node_id)
         # Lock().acquire()
         line_protocol_remove_node(node_id)
-        Lock().release()
+        # Lock().release()
 
 
 def server():
@@ -220,7 +220,9 @@ def server():
         msgs_updated_from_connection = []
         # Lock().acquire()
         for node_id in node_dict.keys():
-            msgs_updated_from_connection.append(f"{node_id}, {node_dict[node_id]["time"]}, {node_dict[node_id]["digit"]}").encode('ascii')
+            cur_update_time = node_dict[node_id]["time"]
+            cur_update_digit = node_dict[node_id]["digit"]
+            msgs_updated_from_connection.append(f"{node_id}, {cur_update_time}, {cur_update_digit}").encode('ascii')
 
         # update msg on my end
         if my_update_time > 0:
@@ -228,14 +230,14 @@ def server():
             my_node_id = f"{my_node_ip}:{my_port}"
             my_new_msg =  f"{my_node_id},{my_update_time},{digit}\n"
             msgs_updated_from_connection.append(my_new_msg.encode('ascii'))
-        nodes_lock.release()
+        # nodes_lock.release()
         
         for msg in msgs_updated_from_connection:
             conn.sendall(msg)
 
         conn.close()
         print('Digit Sent')
-        Lock().release()
+        # Lock().release()
     s.close()
 
 
